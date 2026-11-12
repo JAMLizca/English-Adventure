@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Adventure – La aventura del inglés</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <button class="sound-btn" id="btn-sound" type="button" aria-label="Activar o silenciar el sonido" title="Sonido">🔊</button>
+
+  <main>
+    <!-- ===== 1. Inicio ===== -->
+    <section class="screen active" id="screen-home">
+      <div class="home-scroll">
+        <p class="home-emblem" aria-hidden="true">🧭</p>
+        <h1 class="game-title">English Adventure</h1>
+        <p class="game-sub">La aventura del inglés</p>
+        <p class="story">
+          Un tesoro se perdió hace mucho tiempo. Para encontrarlo debes cruzar cinco territorios
+          y superar sus misiones usando tu inglés. ¿Estás listo, aventurero?
+        </p>
+        <p class="home-info" id="home-info" hidden></p>
+        <div class="stack">
+          <button class="btn btn-gold" id="btn-continue" type="button" hidden>Continuar aventura</button>
+          <button class="btn btn-green" id="btn-new" type="button">Nueva aventura</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. Crear aventurero ===== -->
+    <section class="screen" id="screen-setup">
+      <h2 class="heading">Crea tu aventurero</h2>
+      <label class="field">
+        <span>Tu nombre</span>
+        <input id="inp-name" type="text" maxlength="14" autocomplete="off" placeholder="Aventurero">
+      </label>
+      <div class="field">
+        <span>Elige tu avatar</span>
+        <div class="avatar-grid" id="avatar-grid" role="group" aria-label="Avatar"></div>
+      </div>
+      <div class="field">
+        <span>Elige tu modalidad</span>
+        <div class="mode-grid">
+          <button class="mode-opt" type="button" data-mode="explorer">
+            <span class="mode-emoji">🧒</span>
+            <strong>Explorador</strong>
+            <small>Primaria. Vocabulario básico, imágenes y retos cortos.</small>
+          </button>
+          <button class="mode-opt" type="button" data-mode="expert">
+            <span class="mode-emoji">🧑‍🎓</span>
+            <strong>Experto</strong>
+            <small>Secundaria. Gramática, lectura, traducción y oraciones.</small>
+          </button>
+        </div>
+      </div>
+      <div class="stack">
+        <button class="btn btn-gold" id="btn-begin" type="button">Empezar la aventura</button>
+        <button class="btn btn-plain" id="btn-setup-back" type="button">Volver</button>
+      </div>
+    </section>
+
+    <!-- ===== 3. Mapa de aventuras ===== -->
+    <section class="screen" id="screen-map">
+      <div class="hud">
+        <span class="hud-avatar" id="hud-avatar"></span>
+        <div class="hud-id">
+          <strong id="hud-name"></strong>
+          <span id="hud-mode"></span>
+          <div class="xp" title="Puntos de experiencia">
+            <span id="hud-level">Nv. 1</span>
+            <div class="xp-track"><div class="xp-fill" id="hud-xp-fill"></div></div>
+          </div>
+        </div>
+        <div class="hud-stats">
+          <span title="Vidas" id="hud-lives"></span>
+          <span title="Monedas">🪙 <b id="hud-coins">0</b></span>
+          <span title="Estrellas">⭐ <b id="hud-stars">0</b></span>
+        </div>
+      </div>
+      <button class="btn btn-plain btn-small" id="btn-buy-life" type="button" hidden>Comprar una vida (30 🪙)</button>
+
+      <div class="map" id="map"></div>
+
+      <div class="panel" id="scenario-panel"></div>
+
+      <div class="row">
+        <button class="btn btn-plain" id="btn-progress" type="button">📜 Tabla de progreso</button>
+        <button class="btn btn-plain" id="btn-switch-mode" type="button"></button>
+        <button class="btn btn-plain" id="btn-to-home" type="button">Menú principal</button>
+      </div>
+    </section>
+
+    <!-- ===== 4. Misión ===== -->
+    <section class="screen" id="screen-mission">
+      <div class="mission-top">
+        <button class="btn btn-plain btn-small" id="btn-quit" type="button">🗺️ Mapa</button>
+        <span class="mission-title" id="m-title"></span>
+        <span class="lives" id="m-lives"></span>
+      </div>
+      <div class="dots" id="m-dots" aria-hidden="true"></div>
+      <div class="timer" id="m-timer" hidden>
+        <span>⏳</span>
+        <div class="timer-track"><div class="timer-fill" id="m-timer-fill"></div></div>
+        <b id="m-timer-num"></b>
+      </div>
+
+      <div class="card" id="challenge"></div>
+
+      <div class="feedback" id="feedback" hidden role="status" aria-live="polite">
+        <div class="feedback-text">
+          <strong id="fb-title"></strong>
+          <span id="fb-detail"></span>
+        </div>
+        <button class="round-btn speak-btn" id="fb-speak" type="button" aria-label="Escuchar en inglés" title="Escuchar">🔊</button>
+        <button class="btn btn-gold btn-small" id="btn-next" type="button">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- ===== 5. Resultado de la misión ===== -->
+    <section class="screen" id="screen-result">
+      <p class="big-icon" id="res-icon"></p>
+      <h2 class="heading" id="res-title"></h2>
+      <p class="lead" id="res-text"></p>
+      <div class="rewards" id="res-rewards"></div>
+      <div class="stack">
+        <button class="btn btn-gold" id="btn-res-main" type="button"></button>
+        <button class="btn btn-plain" id="btn-res-alt" type="button"></button>
+      </div>
+    </section>
+
+    <!-- ===== 6. Derrota ===== -->
+    <section class="screen" id="screen-defeat">
+      <p class="big-icon">💔</p>
+      <h2 class="heading">Game over</h2>
+      <p class="lead">Te quedaste sin vidas. Los grandes aventureros descansan, recuperan fuerzas y vuelven a intentarlo.</p>
+      <div class="stack">
+        <button class="btn btn-gold" id="btn-retry" type="button">Volver a intentarlo</button>
+        <button class="btn btn-plain" id="btn-defeat-map" type="button">Volver al mapa</button>
+      </div>
+    </section>
+
+    <!-- ===== 7. Victoria ===== -->
+    <section class="screen" id="screen-victory">
+      <p class="big-icon chest">👑</p>
+      <h2 class="heading">You found the treasure!</h2>
+      <p class="lead" id="vic-text"></p>
+      <div class="rewards" id="vic-stats"></div>
+      <div class="stack">
+        <button class="btn btn-gold" id="btn-vic-mode" type="button"></button>
+        <button class="btn btn-plain" id="btn-vic-map" type="button">Volver al mapa</button>
+      </div>
+    </section>
+
+    <!-- ===== 8. Tabla de progreso ===== -->
+    <section class="screen" id="screen-progress">
+      <h2 class="heading">Tabla de progreso</h2>
+      <p class="lead" id="progress-mode"></p>
+      <div class="table-wrap">
+        <table class="progress-table">
+          <thead><tr><th>Territorio</th><th>Misiones</th><th>Insignia</th></tr></thead>
+          <tbody id="progress-body"></tbody>
+        </table>
+      </div>
+      <div class="rewards" id="progress-totals"></div>
+      <button class="btn btn-gold" id="btn-progress-back" type="button">Volver al mapa</button>
+    </section>
+  </main>
+
+  <div id="fx" aria-hidden="true"></div>
+  <div class="toast" id="toast" hidden role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
